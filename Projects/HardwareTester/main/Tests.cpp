@@ -1,7 +1,6 @@
 
 #include "Tests.h"
 #include "ColorConverter.h"
-#include "LearnerCode.h"
 #include "HalCommon.h"
 #include "CodeReceiver.h"
 
@@ -108,94 +107,5 @@ void ReadString(char *string, uint8_t size)
 		}
 	}
 	printf("\n");
-}
-
-void LearnCode(bool infrared)
-{
-	printf("LearnCode 1\n");
-	char test = 0;
-	if (learnerTest == nullptr)
-	{
-		learnerTest = &Hal::Hardware::Instance()->GetCodeReceiver();
-	}
-
-	if (infrared)
-		learnerTest->Configure(Hal::Gpio::GpioIndex::Gpio4);
-	else
-		learnerTest->Configure(Hal::Gpio::GpioIndex::Gpio14);
-
-	printf("LearnCode 2\n");
-
-	learnerTest->Configure(infrared);
-
-	printf("LearnCode 3\n");
-	while (1)
-	{
-		switch (test)
-		{
-			case 'l':
-			case 'L':
-			{
-				learnerTest->Stop();
-				Hardware::Instance()->GetTimer0().SetTimer(16000);
-				learnerTest->Start();
-			}
-			break;
-			case 's':
-			case 'S':
-			{
-				learnerTest->Stop();
-				Hardware::Instance()->GetTimer0().Stop();
-			}
-			break;
-			case 'p':
-			case 'P':
-			{
-				learnerTest->PrintResult();
-			}
-			break;
-			case 'k':
-			case 'K':
-			{
-				printf("Printing code:\n");
-				while(true)
-				{
-					if (learnerTest->CodeReceived())
-					{
-						learnerTest->PrintResult();
-						learnerTest->Stop();
-						learnerTest->Start();
-					}
-					vTaskDelay(1000);
-				}
-			}
-			break;
-			case 'x':
-			case 'X':
-			{
-				return;
-			}
-			break;
-			default:
-				break;
-		}
-
-		printf("\n");
-		printf("Code Learner menu:\n");
-		printf("----------\n");
-		printf("[L] - Start Code Learner\n");
-		printf("[S] - Stop Code Learner\n");
-		printf("[P] - Print Code\n");
-		printf("[K] - Keep Printing Code\n");
-		printf("[X] - Return\n");
-
-		test = ReadKey();
-	}	
-}
-
-void TestTransmitter()
-{
-	//for(uint8_t i = 0; i < 10; i++)
-		Hardware::Instance()->GetRfControl().RunCommand(0);
 }
 

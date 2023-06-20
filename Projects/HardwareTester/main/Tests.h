@@ -9,7 +9,6 @@
 #include "stdio.h"
 #include "wchar.h"
 #include "Hardware.h"
-#include "LearnerCode.h"
 
 using Hal::Timer;
 using Hal::Hardware;

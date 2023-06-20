@@ -155,40 +155,40 @@ bool WifiDriver::Enable()
 	if (_isEnabled)
 		return true;
 
-	wifi_config_t wifi_config = {};
+	// wifi_config_t wifi_config = {};
 
-	esp_interface_t wifiMode = static_cast<esp_interface_t>(_wifiConfiguration);
+	// esp_interface_t wifiMode = static_cast<esp_interface_t>(_wifiConfiguration);
 
-	if (_wifiConfiguration == WifiModeConfiguration::HotSpot)
-	{
-		strcpy((char *)wifi_config.ap.ssid, _ssid.data());
-		wifi_config.ap.ssid_len = strlen(_ssid.data());
-		wifi_config.ap.max_connection = 4;
-		wifi_config.ap.authmode = static_cast<wifi_auth_mode_t>(_authentication);
-		strcpy((char *)wifi_config.ap.password, _password.data());
+	// if (_wifiConfiguration == WifiModeConfiguration::HotSpot)
+	// {
+	// 	strcpy((char *)wifi_config.ap.ssid, _ssid.data());
+	// 	wifi_config.ap.ssid_len = strlen(_ssid.data());
+	// 	wifi_config.ap.max_connection = 4;
+	// 	wifi_config.ap.authmode = static_cast<wifi_auth_mode_t>(_authentication);
+	// 	strcpy((char *)wifi_config.ap.password, _password.data());
 
-		wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-		esp_wifi_init(&cfg);
-		esp_wifi_set_mode(WIFI_MODE_AP);
-		esp_wifi_start();
-	}
-	else if (_wifiConfiguration == WifiModeConfiguration::Client)
-	{
-		strcpy((char *)wifi_config.sta.password, _password.data());
-		strcpy((char *)wifi_config.sta.ssid, _ssid.data());
-		wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-		esp_wifi_init(&cfg);
-		esp_wifi_set_mode(WIFI_MODE_STA);
-		esp_wifi_start();
-	}
-	else
-	{
-		assert(nullptr);
-	}
+	// 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+	// 	esp_wifi_init(&cfg);
+	// 	esp_wifi_set_mode(WIFI_MODE_AP);
+	// 	esp_wifi_start();
+	// }
+	// else if (_wifiConfiguration == WifiModeConfiguration::Client)
+	// {
+	// 	strcpy((char *)wifi_config.sta.password, _password.data());
+	// 	strcpy((char *)wifi_config.sta.ssid, _ssid.data());
+	// 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+	// 	esp_wifi_init(&cfg);
+	// 	esp_wifi_set_mode(WIFI_MODE_STA);
+	// 	esp_wifi_start();
+	// }
+	// else
+	// {
+	// 	assert(nullptr);
+	// }
 
-	//esp_wifi_set_config(wifiMode, &wifi_config);
+	// //esp_wifi_set_config(wifiMode, &wifi_config);
 
-	_isEnabled = true;
+	// _isEnabled = true;
 
 	return _isEnabled;
 }

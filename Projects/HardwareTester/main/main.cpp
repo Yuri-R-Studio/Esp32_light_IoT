@@ -39,17 +39,7 @@ void executetMenu(char Test)
 		break;
 	case 'd':
 	case 'D':
-		TestTransmitter();
-		break;
-	case 'l':
-	case 'L':
-		LearnCode(false);
-		break;
-	case 'g':
-	case 'G':
-		LearnCode(true);
-		break;
-		break;
+
 
 	default:
 		break;
@@ -60,16 +50,13 @@ void executetMenu(char Test)
 	printf("----------\n");
 	printf("[R] - Software Reset Test\n");
 	printf("[F] - Deep Sleep for 5 Seconds.\n");
-	printf("[S] - Test SPIFFS\n");
-	printf("[D] - Test controller transmitter\n");
-	printf("[L] - Learn RF remote control code\n");
-	printf("[G] - Learn infrared remote control code\n");
+	printf("[D] - Test Lights\n");
 }
 
 extern "C" void app_main(void)
 {
 	Hal::Hardware::Instance();
- 	printf("Hardware Tester for ESP32\n");
+ 	printf("Hardware Tester for ESP32 Light IoT\n");
 
 	TestClass testClass;
 	char test = 0;
