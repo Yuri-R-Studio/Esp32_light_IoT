@@ -61,7 +61,7 @@ bool Rmt::SetBitsPerUnit(uint16_t unitSize)
 	if (unitSize == 0)
 		return false;
 
-	DebugAssertMessage(unitSize <= _rmtBuffer.BufferSize,
+	DebugAssertMessage((unitSize <= _rmtBuffer.BufferSize),
 		"Unit Size is bigger than RMT BufferSize: %d > %d", unitSize, _rmtBuffer.BufferSize);
 	
 	_rmtBuffer.UnitSize = unitSize;

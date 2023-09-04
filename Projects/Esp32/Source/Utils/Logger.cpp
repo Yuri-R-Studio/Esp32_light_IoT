@@ -3,9 +3,10 @@
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 #include "freertos/event_groups.h"
-#include "esp_event_legacy.h"
+// #include "esp_event_legacy.h"
 #include <cstdio>
 #include <cstdarg>
+#include <string.h>
 
 namespace Utilities
 {
@@ -84,7 +85,7 @@ void Logger::LogInfo(LogSource source, const char *format, ...)
 
 void Logger::setColour(TerminalColour colour, BackgroundColour background, bool bold)
 {
-	char colourPrefix[10] = {};
+	char colourPrefix[14] = {};
 	sprintf(colourPrefix, "\033[%d;%d;%dm", bold, static_cast<uint8_t>(background), static_cast<uint8_t>(colour));
 	fwrite(colourPrefix, 1, strlen(colourPrefix), stdout);
 }

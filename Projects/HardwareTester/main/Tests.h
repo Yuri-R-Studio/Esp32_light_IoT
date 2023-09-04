@@ -31,13 +31,11 @@ static void get_string(char *line, size_t size)
 
 void SoftwareResetTest();
 void PutCpuToSleep();
-void TestSpiffs();
-void WifiMenu();
+
 char ReadKey();
 void ReadString(char * string, uint8_t size);
 
 void TestTransmitter();
-void LearnCode(bool infrared = false);
 
 
 class TestClass : Timer::Callback

@@ -96,8 +96,8 @@ public:
 	void SetProtocol(ProtocolSupported protocol)
 	{
 		uint8_t protocolIndex = static_cast<uint8_t>(protocol);
-		DebugAssertMessage(protocolIndex < static_cast<uint8_t>(ProtocolSupported::MaxProtocolSupported),
-			"Protocol not supported. Protocol Id: %d", protocolIndex);
+		// DebugAssertMessage(protocolIndex < static_cast<uint8_t>(ProtocolSupported::MaxProtocolSupported),
+		// 	"Protocol not supported. Protocol Id: %d", protocolIndex);
 		
 		_timeOn = ProtocolSupportedList[protocolIndex][0];
 		_timeOff = ProtocolSupportedList[protocolIndex][1];
@@ -148,7 +148,7 @@ public:
 		uint16_t MaxBits = 0;
 		uint16_t UnitSize = 0;
 		uint16_t BufferSize = 0;
-		xSemaphoreHandle Semaphore;
+		SemaphoreHandle_t Semaphore;
 		rmt_item32_t* Buffer = nullptr;
 		RmtChannel Channel = RmtChannel::RmtChannel0;
 	};

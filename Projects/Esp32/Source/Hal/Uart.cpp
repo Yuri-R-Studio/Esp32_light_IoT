@@ -15,7 +15,7 @@ Uart::Uart(Gpio *gpio, UartPort uartPort, uint32_t baudRate, Gpio::GpioIndex txP
 	uart_config.stop_bits = UART_STOP_BITS_1;
 	uart_config.flow_ctrl = UART_HW_FLOWCTRL_DISABLE;
 	uart_config.rx_flow_ctrl_thresh = 0;
-	uart_config.use_ref_tick = false;
+	// uart_config.use_ref_tick = false;
 	uart_param_config(static_cast<uart_port_t>(_uartPort), &uart_config);
 	uart_set_pin(static_cast<uart_port_t>(_uartPort), static_cast<int>(_txPin), static_cast<int>(_rxPin), 0, 0);
 	uart_driver_install(static_cast<uart_port_t>(_uartPort), UartBufferSize, 0, 0, NULL, 0);
@@ -55,7 +55,7 @@ void Uart::Enable()
 	uart_config.stop_bits = static_cast<uart_stop_bits_t>(_stopBit);
 	uart_config.flow_ctrl = static_cast<uart_hw_flowcontrol_t>(_flowControl);
 	uart_config.rx_flow_ctrl_thresh = 0;
-	uart_config.use_ref_tick = false;
+	// uart_config.use_ref_tick = false;
 
 	uart_param_config(static_cast<uart_port_t>(_uartPort), &uart_config);
 	uart_set_pin(static_cast<uart_port_t>(_uartPort), static_cast<int>(_txPin), static_cast<int>(_rxPin), 0, 0);

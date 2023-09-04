@@ -1,55 +1,17 @@
 
 #include "Tests.h"
 #include "ColorConverter.h"
+// #include "LearnerCode.h"
 #include "HalCommon.h"
-#include "CodeReceiver.h"
+// #include "CodeReceiver.h"
 
-Hal::CodeReceiver* learnerTest = nullptr;
+// Hal::CodeReceiver* learnerTest = nullptr;
 
 using Hal::Dwt;
 using Hal::Hardware;
 using Hal::TimeLimit;
 
 using namespace std;
-
-void TestSpiffs()
-{
-	if (Hardware::Instance()->GetSpiffs().IsMounted() == false)
-	{
-		if (Hardware::Instance()->GetSpiffs().Mount() == false)
-		{
-			printf("\n\nSPIFFS failed!\n\n");
-			return;
-		}
-	}
-
-	printf("\n\nOpening file\n");
-	FILE *f = fopen("/spiffs/hello.txt", "w");
-	if (f == NULL)
-	{
-		printf("Failed to open file for writing");
-		return;
-	}
-	fprintf(f, "SPIFFS is Working!!! Hooray!!! :D\n");
-	fclose(f);
-	printf("File written\n");
-
-	// Check if destination file exists before renaming
-	struct stat st;
-	if (stat("/spiffs/foo.txt", &st) == 0)
-	{
-		// Delete it if it exists
-		unlink("/spiffs/foo.txt");
-	}
-
-	// Rename original file
-	printf("Renaming file\n");
-	if (rename("/spiffs/hello.txt", "/spiffs/foo.txt") != 0)
-	{
-		printf("Rename failed\n");
-		return;
-	}
-}
 
 void PutCpuToSleep()
 {
@@ -107,5 +69,11 @@ void ReadString(char *string, uint8_t size)
 		}
 	}
 	printf("\n");
+}
+
+void TestTransmitter()
+{
+	//for(uint8_t i = 0; i < 10; i++)
+		// Hardware::Instance()->GetRfControl().RunCommand(0);
 }
 

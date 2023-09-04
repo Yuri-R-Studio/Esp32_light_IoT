@@ -3,6 +3,7 @@
 #include "wchar.h"
 #include "Hardware.h"
 #include "soc/rtc.h"
+// #include "esp_hw_support/include/esp_mac.h"
 
 #ifndef HARDWARE_TESTER
 #include "RTOSExtra.h"
@@ -16,9 +17,7 @@ Hardware *Hardware::_pHardware;
 Hardware::Hardware() :	_gpio(),
 						_adc(&_gpio),
 						_debugPort(&_gpio, UartPort::Uart0, 115200, Gpio::GpioIndex::Gpio3, Gpio::GpioIndex::Gpio1),
-						_spiffs(),
 						_rng(),
-						_wifiDriver(),
 						_flash(),
 						_bankConfig(),
 						_timerInterruptHandler(),
@@ -28,21 +27,19 @@ Hardware::Hardware() :	_gpio(),
 #ifdef SPG_GATE
 						_rmtRemoteControl(&_gpio, Gpio::GpioIndex::Gpio25, RmtChannel::RmtChannel0, Hal::BitsPerLed * Hal::MaxAddressableLeds, Hal::BitsPerLed),
 #else
-						_rmtRemoteControl(&_gpio, Gpio::GpioIndex::Gpio4, RmtChannel::RmtChannel0, Hal::BitsPerLed * Hal::MaxAddressableLeds, Hal::BitsPerLed),
+						_rmtRemoteControl(&_gpio, Gpio::GpioIndex::Gpio4, RmtChannel::RmtChannel0, Hal::BitsPerLed * Hal::MaxAddressableLeds, Hal::BitsPerLed)
 #endif
-						_rfControl(&_gpio, &_rmtRemoteControl),
-						_codeReceiver(&_gpio, Hal::Gpio::GpioIndex::Gpio16, &_timer0, true)
 {
-	esp_chip_info(&_mcuInfo);
-	esp_base_mac_addr_get(_macAdrress.data());
+	// esp_chip_info(&_mcuInfo);
+	// esp_base_mac_addr_get(_macAdrress.data());
 	printf("SDK Version         		: %s\n", (char *)esp_get_idf_version());
-	printf("CPU Cores           		: %d\n", _mcuInfo.cores);
+	// printf("CPU Cores           		: %d\n", _mcuInfo.cores);
 	printf("APB Clock           		: %d Hz\n", GetSystemClockBase());
-	printf("CPU Revision        		: %d\n", _mcuInfo.revision);
-	printf("Embedded Flash      		: %s\n", (_mcuInfo.features & CHIP_FEATURE_EMB_FLASH) ? "YES" : "NO");
-	printf("Wi-Fi Modle         		: %s\n", (_mcuInfo.features & CHIP_FEATURE_WIFI_BGN) ? "YES" : "NO");
-	printf("Bluetooth Classic   		: %s\n", (_mcuInfo.features & CHIP_FEATURE_BT) ? "YES" : "NO");
-	printf("Bluetooth LE        		: %s\n", (_mcuInfo.features & CHIP_FEATURE_BLE) ? "YES" : "NO");
+	// printf("CPU Revision        		: %d\n", _mcuInfo.revision);
+	// printf("Embedded Flash      		: %s\n", (_mcuInfo.features & CHIP_FEATURE_EMB_FLASH) ? "YES" : "NO");
+	// printf("Wi-Fi Modle         		: %s\n", (_mcuInfo.features & CHIP_FEATURE_WIFI_BGN) ? "YES" : "NO");
+	// printf("Bluetooth Classic   		: %s\n", (_mcuInfo.features & CHIP_FEATURE_BT) ? "YES" : "NO");
+	// printf("Bluetooth LE        		: %s\n", (_mcuInfo.features & CHIP_FEATURE_BLE) ? "YES" : "NO");
 	printf("MAC Address         		: %02X:%02X:%02X:%02X\n",
 		   _macAdrress[0],
 		   _macAdrress[1],
@@ -52,7 +49,7 @@ Hardware::Hardware() :	_gpio(),
 #ifndef HARDWARE_TESTER
 	printf("MCU Project Heap Allocated	: %d\n", configTOTAL_PROJECT_HEAP_SIZE_ALLOCATED);
 #endif
-	printf("Firmware Image Size	        : %d of %d\n", _bankConfig.GetCurrentBank().ImageSize, _bankConfig.GetCurrentBank().PartitionSize);
+	// printf("Firmware Image Size	        : %lu of %lu\n", _bankConfig.GetCurrentBank().ImageSize, _bankConfig.GetCurrentBank().PartitionSize);
 	printf("Reset Reason        		: %s\n", GetResetReasonAsString(GetResetReason()));
 	printf("Running On	                : %s\n", (_bankConfig.GetCurrentBank().BankRunning == Bank::Bank1) ?
 												"Bank 1" : "Bank 2");
@@ -77,7 +74,6 @@ Hardware::Hardware() :	_gpio(),
 	_timer1.Start();
 	_timer1.SetTimer(16000);
 	
-	_codeReceiver.Init();
 }
 
 uint32_t Hardware::GetSystemClockBase()

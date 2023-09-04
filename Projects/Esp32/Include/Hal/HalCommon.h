@@ -333,6 +333,6 @@ static_assert(sizeof(Sha256Array) == 32, "Array has invalid size.");
 
 static constexpr uint32_t TimeBaseClock = 80000000;
 
-static constexpr uint32_t UartTimeOut = 20 / portTICK_RATE_MS;
+static constexpr uint32_t UartTimeOut = 20 / portTICK_PERIOD_MS;
 } // namespace Hal
 #endif /* INCLUDE_HAL_HALCOMMON_H_ */

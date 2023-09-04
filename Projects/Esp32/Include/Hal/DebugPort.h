@@ -27,7 +27,7 @@ public:
 
 private:
 	static constexpr uint32_t UartBufferSize = 2048;
-	static constexpr uint32_t UartTimeOut = 20 / portTICK_RATE_MS;
+	static constexpr uint32_t UartTimeOut = 20 / portTICK_PERIOD_MS;
 	Gpio *_gpio;
 	UartPort _uartPort;
 	uint32_t _baudRate;
