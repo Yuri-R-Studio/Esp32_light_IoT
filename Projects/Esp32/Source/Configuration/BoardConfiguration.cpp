@@ -1,9 +1,10 @@
 #include "BoardConfiguration.h"
+#include "ArduinoJson.h"
 #include "CommonTypes.h"
-// #include "IPParser.h"
+#include "IPParser.h"
 
 using Common::IpAddress;
-// using Protocol::IPParser;
+using Protocol::IPParser;
 
 #define TEST_CLIENT
 
@@ -37,75 +38,75 @@ void BoardConfiguration::DefaultConfiguration()
 
 bool BoardConfiguration::Deserialize(const char *json)
 {
-    // StaticJsonDocument<JsonConversionLength> doc;
-    // DeserializationError error = deserializeJson(doc, json);
-    // auto &generalChanges = _configuration.GeneralConfig.Changes.Flags;
-    // auto &generalFlags = _configuration.GeneralConfig.Settings.Flags;
-    // bool temp = false;
+    StaticJsonDocument<JsonConversionLength> doc;
+    DeserializationError error = deserializeJson(doc, json);
+    auto &generalChanges = _configuration.GeneralConfig.Changes.Flags;
+    auto &generalFlags = _configuration.GeneralConfig.Settings.Flags;
+    bool temp = false;
 
-    // if (doc["wifi"].isNull() == false)
-    // {
-    //     if (doc["wifi"]["enabled"].isNull() == false)
-    //     {
-    //         temp = generalFlags.WifiEnabled;
-    //         generalChanges.WifiEnabled = UpdateConfig(temp, doc["wifi"]["enabled"].as<bool>());
-    //         generalFlags.WifiEnabled = temp;
-    //     }
-    // }
+    if (doc["wifi"].isNull() == false)
+    {
+        if (doc["wifi"]["enabled"].isNull() == false)
+        {
+            temp = generalFlags.WifiEnabled;
+            generalChanges.WifiEnabled = UpdateConfig(temp, doc["wifi"]["enabled"].as<bool>());
+            generalFlags.WifiEnabled = temp;
+        }
+    }
     return true;
 }
 bool BoardConfiguration::Serialize(char *json, int length)
 {
-    // if (json == nullptr)
-    //     return false;
+    if (json == nullptr)
+        return false;
 
-    // auto &generalChanges = _configuration.GeneralConfig.Changes.Flags;
-    // auto &generalFlags = _configuration.GeneralConfig.Settings.Flags;
-    // auto &wificonfig = _configuration.WifiConfig;
-    // auto &wifiFlags = _configuration.WifiConfig.Settings.Flags;
+    auto &generalChanges = _configuration.GeneralConfig.Changes.Flags;
+    auto &generalFlags = _configuration.GeneralConfig.Settings.Flags;
+    auto &wificonfig = _configuration.WifiConfig;
+    auto &wifiFlags = _configuration.WifiConfig.Settings.Flags;
     
-    // IpAddress ipTemp;
-    // StaticJsonDocument<JsonConversionLength> doc;
+    IpAddress ipTemp;
+    StaticJsonDocument<JsonConversionLength> doc;
 
-    // doc["wifi"]["enabled"] = static_cast<bool>(generalFlags.WifiEnabled);
+    doc["wifi"]["enabled"] = static_cast<bool>(generalFlags.WifiEnabled);
 
-    // doc["wifi"]["mode"] = static_cast<uint8_t>(wificonfig.WifiMode);
+    doc["wifi"]["mode"] = static_cast<uint8_t>(wificonfig.WifiMode);
 
-    // IPParser::ToString(wificonfig.IPAddress, ipTemp.data(), ipTemp.size());
-    // doc["wifi"]["ipaddress"] = ipTemp.data();
+    IPParser::ToString(wificonfig.IPAddress, ipTemp.data(), ipTemp.size());
+    doc["wifi"]["ipaddress"] = ipTemp.data();
  
-    // IPParser::ToString(wificonfig.Mask, ipTemp.data(), ipTemp.size());
-    // doc["wifi"]["mask"] = ipTemp.data();
+    IPParser::ToString(wificonfig.Mask, ipTemp.data(), ipTemp.size());
+    doc["wifi"]["mask"] = ipTemp.data();
 
-    // IPParser::ToString(wificonfig.DnsServer, ipTemp.data(), ipTemp.size());
-    // doc["wifi"]["dnsserver"] = ipTemp.data();
+    IPParser::ToString(wificonfig.DnsServer, ipTemp.data(), ipTemp.size());
+    doc["wifi"]["dnsserver"] = ipTemp.data();
 
-    // doc["wifi"]["authmode"] = static_cast<uint8_t>(wificonfig.AuthenticationMode);
+    doc["wifi"]["authmode"] = static_cast<uint8_t>(wificonfig.AuthenticationMode);
     
-    // doc["wifi"]["channel"] = wificonfig.Channel;
+    doc["wifi"]["channel"] = wificonfig.Channel;
 
-    // doc["wifi"]["ssid"] = wificonfig.Ssid.data();
-    // doc["wifi"]["passwd"] =wificonfig.Password.data();
-    // doc["wifi"]["mac"] = wificonfig.Mac.data();
+    doc["wifi"]["ssid"] = wificonfig.Ssid.data();
+    doc["wifi"]["passwd"] =wificonfig.Password.data();
+    doc["wifi"]["mac"] = wificonfig.Mac.data();
     
-    // uint16_t jsonLength = measureJson(doc) + 1;
+    uint16_t jsonLength = measureJson(doc) + 1;
 
-    // if (length < jsonLength)
-    //     return false;
+    if (length < jsonLength)
+        return false;
 
-    // char temp[JsonConversionLength];
-    // serializeJson(doc, temp);
-    // memcpy(json, temp, jsonLength + 1);
+    char temp[JsonConversionLength];
+    serializeJson(doc, temp);
+    memcpy(json, temp, jsonLength + 1);
 
     return true;
 }
 
 BoardConfiguration::BoardConfiguration() : BaseConfiguration("Board Config")
 {
-    // IPParser::Parse("0.0.0.0", _configuration.WifiConfig.IPAddress);
-    // IPParser::Parse("0.0.0.0", _configuration.WifiConfig.Mask);
-    // IPParser::Parse("0.0.0.0", _configuration.WifiConfig.GatewayAddress);
-    // IPParser::Parse("8.8.8.8", _configuration.WifiConfig.DnsServer);
+    IPParser::Parse("0.0.0.0", _configuration.WifiConfig.IPAddress);
+    IPParser::Parse("0.0.0.0", _configuration.WifiConfig.Mask);
+    IPParser::Parse("0.0.0.0", _configuration.WifiConfig.GatewayAddress);
+    IPParser::Parse("8.8.8.8", _configuration.WifiConfig.DnsServer);
 }
 
 BoardConfiguration::~BoardConfiguration()

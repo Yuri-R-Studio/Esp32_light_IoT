@@ -14,6 +14,30 @@ namespace Hal
 
 using std::array;
 
+static constexpr uint8_t MaxDigitalInputs = 2;
+static constexpr uint8_t MaxAnalogInputs = 2;
+
+enum class DigitalInputIndex : uint8_t
+{
+	UserButtonEnter,
+	UserButtonReturn,
+};
+
+enum class AnalogInputIndex : uint8_t
+{
+	LaserPower,
+	LaserDelay,
+};
+
+enum class RmtProtocolSupported : uint8_t
+{
+	WS2812B,
+	herculiftRemoteControl,
+	ServoMotor,
+	// Max Protol Supported
+	MaxProtocolSupported
+};
+
 enum class RmtChannel : uint8_t
 {
     RmtChannel0 = 0,
@@ -264,6 +288,13 @@ enum class Bank : uint8_t
 	Unknown = 255
 };
 
+enum class InputType : uint8_t
+{
+	None,
+	Digital,
+	Analog
+};
+
 union Led
 {
 	struct
@@ -333,6 +364,6 @@ static_assert(sizeof(Sha256Array) == 32, "Array has invalid size.");
 
 static constexpr uint32_t TimeBaseClock = 80000000;
 
-static constexpr uint32_t UartTimeOut = 20 / portTICK_PERIOD_MS;
+static constexpr uint32_t UartTimeOut = 20 / portTICK_RATE_MS;
 } // namespace Hal
 #endif /* INCLUDE_HAL_HALCOMMON_H_ */

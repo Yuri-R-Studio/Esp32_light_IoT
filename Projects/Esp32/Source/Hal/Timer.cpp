@@ -90,6 +90,7 @@ namespace Hal
 
 	bool Timer::AddCallback(Timer::Callback *timerCallback)
 	{
+
 #ifdef DEBUG_TIMER
 		printf("Timer::AddCallback()\n");
 #endif

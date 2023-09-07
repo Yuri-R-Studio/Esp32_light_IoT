@@ -25,6 +25,7 @@ ConfigurationAgent::~ConfigurationAgent()
 void ConfigurationAgent::UseDefaultConfiguration()
 {
     _boardConfiguration.DefaultConfiguration();
+    // Applications::ApplicationAgent::Instance()->GetWifi().ConfigurationUpdated();
 }
 
 void ConfigurationAgent::DefaulAllConfigurations()

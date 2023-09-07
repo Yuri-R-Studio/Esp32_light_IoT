@@ -19,12 +19,9 @@ ApplicationAgent::ApplicationAgent()
 
 void ApplicationAgent::Initialize()
 {
-    // _wifiService = new WifiService();
-    // _httpServer = new HttpServer(80);
-    // _gatewayService = new GatewayService();
-    // _firmwareUpdateService = new FirmwareUpdateService();
-    // _audioPlayerService = new AudioPlayerService();
-    // _remoteReceiverService = new RemoteReceiverService();
+    _laserControlService = new LaserControlService();
+    _menuService = new MenuService();
+    _inputScanner = new InputScannerService();
 }
 
 } // namespace Applications

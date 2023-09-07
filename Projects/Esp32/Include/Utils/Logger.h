@@ -26,6 +26,9 @@ public:
 		FirmwareUpdate,
 		AudioPlayer,
 		RemoteReceiver,
+		LaserController,
+		Menu,
+		InputScanner,
 		Unknown = 255
 	};
 

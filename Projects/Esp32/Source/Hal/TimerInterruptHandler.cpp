@@ -55,7 +55,7 @@ bool TimerInterruptHandler::SetFrequency(TimerInterruptHandler::Callback *handle
 	{
 		TimerSelect timer = (handler->Preemption == Preemption::TIMER0) ? TimerSelect::Timer0 : TimerSelect::Timer1;
 
-		DebugAssertMessage((callbackList[static_cast<uint8_t>(timer)] != nullptr), "Timer %d Callback isn't initalized",
+		DebugAssertMessage(callbackList[static_cast<uint8_t>(timer)] != nullptr, "Timer %d Callback isn't initalized",
 			static_cast<uint8_t>(timer));
 		callbackList[static_cast<uint8_t>(timer)]->Frequency = handler->Frequency;
 	}
@@ -67,43 +67,43 @@ bool TimerInterruptHandler::SetFrequency(TimerInterruptHandler::Callback *handle
 
 void IRAM_ATTR TimerInterruptHandler::CallbackHandler(void *arg)
 {
-	// TimerInterruptHandler::Callback *handler = (TimerInterruptHandler::Callback *)arg;
+	TimerInterruptHandler::Callback *handler = (TimerInterruptHandler::Callback *)arg;
 
-	// if (handler->Frequency == 0)
-	// 	return;
+	if (handler->Frequency == 0)
+		return;
 
-	// timer_idx_t timer;
+	timer_idx_t timer;
 
-	// if (handler->Preemption == Preemption::TIMER0)
-	// 	timer = TIMER_0;
-	// else if (handler->Preemption == Preemption::TIMER1)
-	// 	timer = TIMER_1;
-	// else
-	// 	return;
+	if (handler->Preemption == Preemption::TIMER0)
+		timer = TIMER_0;
+	else if (handler->Preemption == Preemption::TIMER1)
+		timer = TIMER_1;
+	else
+		return;
 
-	// uint32_t intr_status = TIMERG0.int_st_timers.val;
-	// TIMERG0.hw_timer[timer].update = 1;
-	// if (intr_status & BIT(timer))
-	// {
-	// 	if (handler->AutoReload == false)
-	// 	{
-	// 		assert(timer == TIMER_0);
-	// 		uint64_t timer_counter_value = ((uint64_t)TIMERG0.hw_timer[timer].cnt_high) << 32 | TIMERG0.hw_timer[timer].cnt_low;
-	// 		TIMERG0.int_clr_timers.t0 = 1;
-	// 		timer_counter_value += (uint64_t)(CountsPerSecond / handler->Frequency);
-	// 		TIMERG0.hw_timer[timer].alarm_high = (uint32_t)(timer_counter_value >> 32);
-	// 		TIMERG0.hw_timer[timer].alarm_low = (uint32_t)timer_counter_value;
-	// 	}
-	// 	else
-	// 	{
-	// 		assert(timer == TIMER_1);
-	// 		TIMERG0.int_clr_timers.t1 = 1;
-	// 	}
-	// }
-	// TIMERG0.hw_timer[timer].config.alarm_en = TIMER_ALARM_EN;
+	uint32_t intr_status = TIMERG0.int_st_timers.val;
+	TIMERG0.hw_timer[timer].update = 1;
+	if (intr_status & BIT(timer))
+	{
+		if (handler->AutoReload == false)
+		{
+			assert(timer == TIMER_0);
+			uint64_t timer_counter_value = ((uint64_t)TIMERG0.hw_timer[timer].cnt_high) << 32 | TIMERG0.hw_timer[timer].cnt_low;
+			TIMERG0.int_clr_timers.t0 = 1;
+			timer_counter_value += (uint64_t)(CountsPerSecond / handler->Frequency);
+			TIMERG0.hw_timer[timer].alarm_high = (uint32_t)(timer_counter_value >> 32);
+			TIMERG0.hw_timer[timer].alarm_low = (uint32_t)timer_counter_value;
+		}
+		else
+		{
+			assert(timer == TIMER_1);
+			TIMERG0.int_clr_timers.t1 = 1;
+		}
+	}
+	TIMERG0.hw_timer[timer].config.alarm_en = TIMER_ALARM_EN;
 
-	// if (handler->InterruptHandlerProcessing != nullptr)
-	// 	handler->InterruptHandlerProcessing->InterruptProcessor(handler->Preemption);
+	if (handler->InterruptHandlerProcessing != nullptr)
+		handler->InterruptHandlerProcessing->InterruptProcessor(handler->Preemption);
 }
 
 void TimerInterruptHandler::SetCallback(TimerInterruptHandler::Callback *handler)

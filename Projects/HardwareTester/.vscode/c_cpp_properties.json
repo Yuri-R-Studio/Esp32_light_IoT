@@ -1,5 +1,7 @@
 {
     "env": {
+        "IDF_TOOLS": "c:/esp/.espressif/tools",
+        "IDF_PATH": "c:/esp/esp-idf",
         "PROJECT_NAME": "app-hardware-tester"
     },
     "configurations": [
@@ -24,8 +26,8 @@
                 "${workspaceFolder}/../Esp32/Include/Application/",
                 "${workspaceFolder}/../Esp32/Libraries/**",
                 "${workspaceFolder}/../Esp32/Libraries/freertos-addons/Source/include",
-                "C:/esp/**",
-                "C:/Espressif/**"
+                "${env:IDF_TOOLS}/**",
+                "${env:IDF_PATH}/components/**"
             ],
             "defines": [],
             "cStandard": "c11",

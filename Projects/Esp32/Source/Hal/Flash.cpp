@@ -17,25 +17,25 @@ Flash::~Flash()
 {
 }
 
-// bool Flash::Read(uint32_t offset, uint8_t *data, size_t size)
-// {
-//     if (data == nullptr || size == 0)
-//         return false;
+bool Flash::Read(uint32_t offset, uint8_t *data, size_t size)
+{
+    if (data == nullptr || size == 0)
+        return false;
 
-//     return spi_flash_read(offset, data, size) == ESP_OK;
-// }
+    return spi_flash_read(offset, data, size) == ESP_OK;
+}
 
-// bool Flash::Write(uint32_t offset, uint8_t *data, size_t size)
-// {
-//     if (data == nullptr || size == 0)
-//         return false;
+bool Flash::Write(uint32_t offset, uint8_t *data, size_t size)
+{
+    if (data == nullptr || size == 0)
+        return false;
 
-//     return spi_flash_write(offset, data, size) == ESP_OK;
-// }
+    return spi_flash_write(offset, data, size) == ESP_OK;
+}
 
-// bool Flash::EraseSector(uint32_t sector)
-// {
-//     return spi_flash_erase_sector(sector) == ESP_OK;
-// }
+bool Flash::EraseSector(uint32_t sector)
+{
+    return spi_flash_erase_sector(sector) == ESP_OK;
+}
 
 } // namespace Hal

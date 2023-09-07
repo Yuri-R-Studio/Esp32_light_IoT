@@ -50,7 +50,7 @@ class Rmt // : public Timer::Callback
 
 public:
 	// @brief Gpio flass pointer, Gpio pin, RMT Channel, Buffer Size (uint32_t)
-	Rmt(Gpio *IoPins, Gpio::GpioIndex transmitterPin, RmtChannel channel, uint16_t bufferSize, uint16_t unitSize = 1);
+	Rmt(Gpio *IoPins, Gpio::GpioIndex transmitterPin, RmtChannel channel, uint16_t bufferSize, uint16_t unitSize = 1, RmtProtocolSupported protocol = RmtProtocolSupported::WS2812B);
 	~Rmt();
 	void Write(bool wait = false);
 	bool UpdateBuffer(uint32_t *buffer, uint16_t length);
@@ -84,27 +84,19 @@ public:
 		
 		return true;
 	}
-
-	enum class ProtocolSupported : uint8_t
-	{
-		WS2812B,
-		herculiftRemoteControl,
-		// Max Protol Supported
-		MaxProtocolSupported
-	};
 	
-	void SetProtocol(ProtocolSupported protocol)
+	void SetProtocol(RmtProtocolSupported protocol)
 	{
 		uint8_t protocolIndex = static_cast<uint8_t>(protocol);
-		// DebugAssertMessage(protocolIndex < static_cast<uint8_t>(ProtocolSupported::MaxProtocolSupported),
-		// 	"Protocol not supported. Protocol Id: %d", protocolIndex);
+		DebugAssertMessage(protocolIndex < static_cast<uint8_t>(RmtProtocolSupported::MaxProtocolSupported),
+			"Protocol not supported. Protocol Id: %d", protocolIndex);
 		
 		_timeOn = ProtocolSupportedList[protocolIndex][0];
 		_timeOff = ProtocolSupportedList[protocolIndex][1];
 
 		switch(protocol)
 		{
-			case ProtocolSupported::WS2812B:
+			case RmtProtocolSupported::WS2812B:
 			{
 				rmt_config_t config;
 				config.rmt_mode = RMT_MODE_TX;
@@ -119,7 +111,7 @@ public:
 				ESP_ERROR_CHECK(rmt_config(&config));
 			}
 			break;
-			case  ProtocolSupported::herculiftRemoteControl:
+			case  RmtProtocolSupported::herculiftRemoteControl:
 			{
 				rmt_config_t config;
 				config.rmt_mode = RMT_MODE_TX;
@@ -134,34 +126,49 @@ public:
 				ESP_ERROR_CHECK(rmt_config(&config));
 			}
 			break;
-
+			case RmtProtocolSupported::ServoMotor:
+			{
+				rmt_config_t config;
+				config.rmt_mode = RMT_MODE_TX;
+				config.channel = static_cast<rmt_channel_t>(_rmtBuffer.Channel);
+				config.gpio_num = static_cast<gpio_num_t>(_transmitterPin);
+				config.mem_block_num = 3;
+				config.tx_config.loop_en = false;
+				config.tx_config.carrier_en = false;
+				config.tx_config.idle_output_en = true;
+				config.tx_config.idle_level = static_cast<rmt_idle_level_t>(0);
+				config.clk_div = 64;
+				ESP_ERROR_CHECK(rmt_config(&config));
+				SetMaxUnitsToSend(1);
+			}
 			default:
 				break;
 		}
 
 	}
 
-	struct RmtBufferLed
+	struct RmtBuffer
 	{
 		uint16_t Index = 0;
 		uint16_t MaxUnitsToSend = 0;
 		uint16_t MaxBits = 0;
 		uint16_t UnitSize = 0;
 		uint16_t BufferSize = 0;
-		SemaphoreHandle_t Semaphore;
+		xSemaphoreHandle Semaphore;
 		rmt_item32_t* Buffer = nullptr;
 		RmtChannel Channel = RmtChannel::RmtChannel0;
 	};
 private:
-	RmtBufferLed _rmtBuffer = {};
+	RmtBuffer _rmtBuffer = {};
 	static void IRAM_ATTR doneOnChannel(rmt_channel_t channel, void * arg);
 	Gpio *_gpio;
 	Gpio::GpioIndex _transmitterPin;
-
-	rmt_item32_t ProtocolSupportedList [static_cast<uint8_t>(ProtocolSupported::MaxProtocolSupported)][2] = 
+	RmtProtocolSupported _protocol;
+	rmt_item32_t ProtocolSupportedList [static_cast<uint8_t>(RmtProtocolSupported::MaxProtocolSupported)][2] = 
 	{
 		{{35, 1, 15, 0}, {15, 1, 35, 0}},
-		{{920, 1, 505, 0}, {440, 1, 983, 0}}
+		{{920, 1, 505, 0}, {440, 1, 983, 0}},
+		{{35, 1, 40, 0}, {1, 0, 1, 0}}
 	};
 
 	rmt_item32_t _timeOn = {{{T1H, 1, T1L, 0}}};

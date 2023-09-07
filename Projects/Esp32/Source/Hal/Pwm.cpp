@@ -46,7 +46,7 @@ void Pwm::SetPin(PwmIndex pwm, Gpio::GpioIndex gpio)
 void Pwm::SetPwmFrequence(uint32_t freq)
 {
 	this->Frequency = freq * DutyCycleResolution;
-	printf("Frequency: %d\n", this->Frequency);
+	printf("Frequency: %u\n", this->Frequency);
 	_itrpHandler->SetFrequency(this);
 	Restart();
 }

@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/esp/**",
-                "C:/Espressif/**"
+                "C:/esp/esp-idf/**"
             ],
             "defines": [
                 "_DEBUG",

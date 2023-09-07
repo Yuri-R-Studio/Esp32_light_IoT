@@ -14,7 +14,7 @@ Rng::~Rng()
 
 uint32_t Rng::GetNumber()
 {
-    return (uint32_t)rand();
+    return esp_random();
 }
 
 } // namespace Hal

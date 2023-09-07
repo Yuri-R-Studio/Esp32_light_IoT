@@ -13,21 +13,6 @@ class DeviceInput
 {
 
 public:
-	static constexpr uint8_t MaxDigitalInputs = 2;
-	static constexpr uint8_t MaxAnalogInputs = 2;
-
-	enum class DigitalInputIndex : uint8_t
-	{
-		UserButtonEnter,
-		UserButtonReturn,
-	};
-	
-	enum class AnalogInputIndex : uint8_t
-	{
-		Color,
-		Brightness,
-	};
-
 	uint16_t GetAnalogInput(AnalogInputIndex input, uint8_t averageSamples = 1);
 	DeviceInput(Gpio* IoPins, Adc* adc);
 	~DeviceInput();
@@ -38,8 +23,8 @@ private:
 	Adc* _adc;
 	Gpio::GpioIndex digitalInputIndex[MaxDigitalInputs] =
 	{
-		Gpio::GpioIndex::Gpio26,
-		Gpio::GpioIndex::Gpio18
+		Gpio::GpioIndex::Gpio36,
+		Gpio::GpioIndex::Gpio39
 	};
 	
 	Gpio::GpioIndex analogIndex[MaxAnalogInputs] =
