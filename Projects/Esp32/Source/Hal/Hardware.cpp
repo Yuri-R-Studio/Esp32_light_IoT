@@ -32,7 +32,6 @@ Hardware::Hardware() :	_gpio(),
 						_display(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT, &_i2c),
 						_motor1(&_gpio, Gpio::GpioIndex::Gpio18, LEDC_CHANNEL_0),
 						_motor2(&_gpio, Gpio::GpioIndex::Gpio5, LEDC_CHANNEL_1),
-						_laser(&_gpio, Gpio::GpioIndex::Gpio17, LEDC_CHANNEL_2),
 						_wiiNunchuk(&_i2c, 0x52)
 {
 	esp_chip_info(&_mcuInfo);
@@ -84,8 +83,6 @@ Hardware::Hardware() :	_gpio(),
 	
 	_motor1.Init();
 	_motor2.Init();
-	_laser.Init();
-	_laser.SetPower(30);	
 }
 
 uint32_t Hardware::GetSystemClockBase()

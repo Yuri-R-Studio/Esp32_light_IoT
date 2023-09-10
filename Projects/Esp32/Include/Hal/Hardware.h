@@ -26,7 +26,6 @@
 #include "I2c.h"
 #include "DeviceInput.h"
 #include "ServoMotor.h"
-#include "Laser.h"
 #include "WiiNunchuk.h"
 
 
@@ -60,7 +59,6 @@ public:
 	Adafruit_SSD1306& GetDisplay() { return _display; }
 	ServoMotor &GetMotorY() { return _motor1; }
 	ServoMotor &GetMotorX() { return _motor2; }
-	Laser &GetLaser() { return _laser; }
 	WiiNunchuk &GetController() { return _wiiNunchuk; }
 
 	uint32_t Milliseconds();
@@ -114,7 +112,6 @@ private:
 	Adafruit_SSD1306 _display;
 	ServoMotor _motor1;
 	ServoMotor _motor2;
-	Laser _laser;
 	WiiNunchuk _wiiNunchuk; 
 };
 } // namespace Hal

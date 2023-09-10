@@ -13,7 +13,6 @@ using Hal::Hardware;
 using Hal::WiiNunchuk;
 using Hal::ServoMotor;
 using Hal::DeviceInput;
-using Hal::Laser;
 using Hal::Rng;
 
 class LaserControlService : public cpp_freertos::Thread

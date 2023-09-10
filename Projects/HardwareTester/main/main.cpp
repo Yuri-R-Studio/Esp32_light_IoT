@@ -43,33 +43,13 @@ void executetMenu(char Test)
 	case 'S':
 		TestSpiffs();
 		break;
-	case 'v':
-	case 'V':
-		TestSdCard();
-		break;
 	case 'w':
 	case 'W':
 		WifiMenu();
 		break;
-	case 'd':
-	case 'D':
-		TestTransmitter();
-		break;
-	case 'l':
-	case 'L':
-		LearnCode(false);
-		break;
-	case 'g':
-	case 'G':
-		LearnCode(true);
-		break;
 	case 'i':
 	case 'I':
 		TestI2cDisplay();
-		break;
-	case 'b':
-	case 'B':
-		ReadButtonAndAnalog();
 		break;
 	default:
 		break;
@@ -82,12 +62,8 @@ void executetMenu(char Test)
 	printf("[R] - Software Reset Test\n");
 	printf("[F] - Deep Sleep for 5 Seconds.\n");
 	printf("[S] - Test SPIFFS\n");
-	printf("[V] - Test SD Card\n");
 	printf("[W] - WiFi Menu\n");
 	printf("[B] - Input Menu\n");
-	printf("[D] - Test controller transmitter\n");
-	printf("[L] - Learn RF remote control code\n");
-	printf("[G] - Learn infrared remote control code\n");
 	printf("[I] - Test I2C display\n");
 }
 

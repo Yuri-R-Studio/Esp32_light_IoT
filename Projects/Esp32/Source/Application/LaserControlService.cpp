@@ -22,56 +22,6 @@ void LaserControlService::Run()
 {
     Logger::LogInfo(Logger::LogSource::LaserController, "Laser Controller Service Started");
 
-	// Initializing the pointers
-	_wiiNunchuk = &Hardware::Instance()->GetController();
-	_motorY = &Hardware::Instance()->GetMotorY();
-    _motorX = &Hardware::Instance()->GetMotorX();
-	_rng = &Hardware::Instance()->GetRng();
-
-    Laser& laser = Hardware::Instance()->GetLaser();
-   	ApplicationAgent* appAgent = ApplicationAgent::Instance();
-
-	uint16_t laserPower = 0;
-	for(;;)
-	{
-		if (_wiiNunchuk->IsPresent())
-		{
-			if (!_runningWithController)
-			{
-				_wiiNunchuk->Init();
-				_runningWithController = true;
-				//appAgent->GetMenuService()->UpdateDisplay("Controller\nConnected");
-				Logger::LogInfo(Logger::LogSource::LaserController, "Controller Connected.");
-			}
-		}
-		else
-        {
-            if (_runningWithController)
-            {
-				//appAgent->GetMenuService()->UpdateDisplay("Controller\nDisconnected");
-				Logger::LogInfo(Logger::LogSource::LaserController, "Controller Disconnected.");
-            }
-            _runningWithController = false;
-        }
-
-		if (_runningWithController)
-		{
-			vTaskDelay(5);
-			_wiiNunchuk->Update();
-			_motorY->SetPositon(100 - _wiiNunchuk->GetJoystickX());
-			_motorX->SetPositon(_wiiNunchuk->GetJoystickY());
-			vTaskDelay(5);
-		}
-		else
-		{
-			roundEffect();
-		}
-		laserPower = Status::StatusAgent::Instance()->GetInputStatusList().
-						GetInput(Configuration::InputIndex::PotLaserPower).GetAnalogLevel();
-		if (laserPower > 0)
-			laserPower = (laserPower * 100) / 4096;
-		laser.SetPower(laserPower);
-	}
 }
 
 void LaserControlService::randomPosition()
