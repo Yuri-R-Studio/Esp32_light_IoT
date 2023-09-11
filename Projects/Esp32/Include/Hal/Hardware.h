@@ -27,7 +27,7 @@
 #include "DeviceInput.h"
 #include "ServoMotor.h"
 #include "WiiNunchuk.h"
-
+#include "Leds.h"
 
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1306.h"
@@ -60,6 +60,7 @@ public:
 	ServoMotor &GetMotorY() { return _motor1; }
 	ServoMotor &GetMotorX() { return _motor2; }
 	WiiNunchuk &GetController() { return _wiiNunchuk; }
+	Leds &GetLeds() { return _leds; }
 
 	uint32_t Milliseconds();
 	void TimerCallback();
@@ -112,7 +113,8 @@ private:
 	Adafruit_SSD1306 _display;
 	ServoMotor _motor1;
 	ServoMotor _motor2;
-	WiiNunchuk _wiiNunchuk; 
+	WiiNunchuk _wiiNunchuk;
+	Leds _leds;
 };
 } // namespace Hal
 

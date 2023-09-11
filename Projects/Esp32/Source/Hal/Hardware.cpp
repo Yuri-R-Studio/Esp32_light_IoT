@@ -32,7 +32,8 @@ Hardware::Hardware() :	_gpio(),
 						_display(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT, &_i2c),
 						_motor1(&_gpio, Gpio::GpioIndex::Gpio18, LEDC_CHANNEL_0),
 						_motor2(&_gpio, Gpio::GpioIndex::Gpio5, LEDC_CHANNEL_1),
-						_wiiNunchuk(&_i2c, 0x52)
+						_wiiNunchuk(&_i2c, 0x52),
+						_leds(&_rmt)
 {
 	esp_chip_info(&_mcuInfo);
 	esp_base_mac_addr_get(_macAdrress.data());

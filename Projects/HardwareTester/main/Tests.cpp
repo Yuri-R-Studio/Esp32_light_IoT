@@ -293,6 +293,41 @@ void WifiMenu()
 	}
 }
 
+void LedMenu()
+{
+	char test = 0;
+
+	while (1)
+	{
+		switch (test)
+		{
+		case 't':
+		case 'T':
+		{
+			TestLed();
+		}
+		break;
+		case 'x':
+		case 'X':
+		{
+			return;
+		}
+		break;
+		default:
+			break;
+		}
+
+		printf("\n");
+		printf("Led menu:\n");
+		printf("----------\n");
+		printf("[T] - Test Leds Array\n");
+		printf("[X] - Return\n");
+		printf("Obs.: gpio 35, 34, 39, 36 can only be input\n");
+
+		test = ReadKey();
+	}
+}
+
 void AdafruitLibDisplayTest ()
 {
 	Adafruit_SSD1306& display = Hal::Hardware::Instance()->GetDisplay();
@@ -415,59 +450,59 @@ void TestI2cDisplay()
 
 void IoExtenderMenu()
 {
-	char test = 0;
+	// char test = 0;
 
-	while (1)
-	{
-		switch (test)
-		{
-			case 's':
-			case 'S':
-			{
-				printf("\nAll GPIO on the IO Extender are turned on.\n");
+	// while (1)
+	// {
+	// 	switch (test)
+	// 	{
+	// 		case 's':
+	// 		case 'S':
+	// 		{
+	// 			printf("\nAll GPIO on the IO Extender are turned on.\n");
 				
-				Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
+	// 			Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
 
-				Hardware::Instance()->GetIoExtender().SetAll();				
-			}
-			break;
-			case 'd':
-			case 'D':
-			{
-				printf("\nAll GPIO on the IO Extender are turned off.\n");
-				Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
-				Hardware::Instance()->GetIoExtender().ResetAll();
+	// 			Hardware::Instance()->GetIoExtender().SetAll();				
+	// 		}
+	// 		break;
+	// 		case 'd':
+	// 		case 'D':
+	// 		{
+	// 			printf("\nAll GPIO on the IO Extender are turned off.\n");
+	// 			Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
+	// 			Hardware::Instance()->GetIoExtender().ResetAll();
 
-			}
-			break;
-			case 'f':
-			case 'F':
-			{
-				Hardware::Instance()->GetIoExtender().ConfigureInput(0xFF);
-				printf("\nThe Inputs value:%x\n", Hardware::Instance()->GetIoExtender().GetInputs());
+	// 		}
+	// 		break;
+	// 		case 'f':
+	// 		case 'F':
+	// 		{
+	// 			Hardware::Instance()->GetIoExtender().ConfigureInput(0xFF);
+	// 			printf("\nThe Inputs value:%x\n", Hardware::Instance()->GetIoExtender().GetInputs());
 				
-			}
-			break;
-			case 'x':
-			case 'X':
-			{
-				return;
-			}
-			break;
-			default:
-				break;
-			}
+	// 		}
+	// 		break;
+	// 		case 'x':
+	// 		case 'X':
+	// 		{
+	// 			return;
+	// 		}
+	// 		break;
+	// 		default:
+	// 			break;
+	// 		}
 
-		printf("\n");
-		printf("IO Extender menu:\n");
-		printf("----------\n");
-		printf("[S] - Turn on all outputs\n");
-		printf("[D] - Turn off all outputs\n");
-		printf("[F] - Read Inputs\n");
-		printf("[X] - Return\n");
+	// 	printf("\n");
+	// 	printf("IO Extender menu:\n");
+	// 	printf("----------\n");
+	// 	printf("[S] - Turn on all outputs\n");
+	// 	printf("[D] - Turn off all outputs\n");
+	// 	printf("[F] - Read Inputs\n");
+	// 	printf("[X] - Return\n");
 
-		test = ReadKey();
-	}
+	// 	test = ReadKey();
+	// }
 }
 
 void TestLed()
