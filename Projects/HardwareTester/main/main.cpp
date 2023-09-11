@@ -22,8 +22,6 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1306.h"
 
-void TestLedMatrix (void);
-
 void executetMenu(char Test)
 {
 	switch (Test)
@@ -53,10 +51,6 @@ void executetMenu(char Test)
 	case 'I':
 		TestI2cDisplay();
 		break;
-	case 'l':
-	case 'L':
-		TestLedMatrix();
-		break;
 	default:
 		break;
 	}
@@ -71,7 +65,6 @@ void executetMenu(char Test)
 	printf("[W] - WiFi Menu\n");
 	printf("[B] - Input Menu\n");
 	printf("[I] - Test I2C display\n");
-	printf("[L] - Test LEDs\n");
 }
 
 extern "C" void app_main(void)
@@ -87,9 +80,4 @@ extern "C" void app_main(void)
 		executetMenu(test);
 		test = ReadKey();
 	}
-}
-
-void TestLedMatrix (void)
-{
-
 }

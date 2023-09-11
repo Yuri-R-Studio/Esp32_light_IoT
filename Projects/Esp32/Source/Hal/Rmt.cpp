@@ -3,6 +3,9 @@
 #include "Rmt.h"
 #include "Dwt.h"
 
+#define DEBUG_rmt
+
+
 namespace Hal
 {
 using Utilities::DebugAssert;

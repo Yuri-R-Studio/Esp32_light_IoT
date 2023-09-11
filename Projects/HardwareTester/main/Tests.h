@@ -38,12 +38,6 @@ void LedMenu();
 char ReadKey();
 void ReadString(char * string, uint8_t size);
 void TestLed();
-void TestI2sClock();
-void TestSdCard();
-void IoExtenderMenu();
-void TestTransmitter();
-void LearnCode(bool infrared = false);
-void ReadButtonAndAnalog();
 void RainbowLedTest();
 
 

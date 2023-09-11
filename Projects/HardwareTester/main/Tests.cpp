@@ -448,63 +448,6 @@ void TestI2cDisplay()
 	}	
 }
 
-void IoExtenderMenu()
-{
-	// char test = 0;
-
-	// while (1)
-	// {
-	// 	switch (test)
-	// 	{
-	// 		case 's':
-	// 		case 'S':
-	// 		{
-	// 			printf("\nAll GPIO on the IO Extender are turned on.\n");
-				
-	// 			Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
-
-	// 			Hardware::Instance()->GetIoExtender().SetAll();				
-	// 		}
-	// 		break;
-	// 		case 'd':
-	// 		case 'D':
-	// 		{
-	// 			printf("\nAll GPIO on the IO Extender are turned off.\n");
-	// 			Hardware::Instance()->GetIoExtender().ConfigureOutput(0xFF);
-	// 			Hardware::Instance()->GetIoExtender().ResetAll();
-
-	// 		}
-	// 		break;
-	// 		case 'f':
-	// 		case 'F':
-	// 		{
-	// 			Hardware::Instance()->GetIoExtender().ConfigureInput(0xFF);
-	// 			printf("\nThe Inputs value:%x\n", Hardware::Instance()->GetIoExtender().GetInputs());
-				
-	// 		}
-	// 		break;
-	// 		case 'x':
-	// 		case 'X':
-	// 		{
-	// 			return;
-	// 		}
-	// 		break;
-	// 		default:
-	// 			break;
-	// 		}
-
-	// 	printf("\n");
-	// 	printf("IO Extender menu:\n");
-	// 	printf("----------\n");
-	// 	printf("[S] - Turn on all outputs\n");
-	// 	printf("[D] - Turn off all outputs\n");
-	// 	printf("[F] - Read Inputs\n");
-	// 	printf("[X] - Return\n");
-
-	// 	test = ReadKey();
-	// }
-}
-
 void TestLed()
 {
 	Hal::Led led = {};
